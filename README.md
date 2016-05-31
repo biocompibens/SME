@@ -1,6 +1,6 @@
 # SME
 
-ImageJ Plugin instructions:
+## ImageJ Plugin instructions:
 
 
 Prerequisites:
@@ -20,7 +20,7 @@ For simple version, select in case of multi-channel image, the channel to create
 
 In case of advanced version, the user can execute the algorithm step-wise (Step 1-SML, Step2- Kmeans and Step 3- energy optimization) or all at once using the batch mode. All intermediate results and even the energy and PSI plots are generated as separate images.
 
-MatlaB Toolbox instructions:
+## MatlaB Toolbox instructions:
 
 1. Please download the SME_toolbox and unzip the folder.
 
