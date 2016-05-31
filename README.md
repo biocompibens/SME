@@ -7,7 +7,7 @@ Please note that, you need to uninstall java 1.7 and then install java 1.8. In t
 
 Steps:
 
-1. Place plugin 'SME_PROJECTION_ENS.jar' in Plugins folder of Fiji/ImageJ
+1. Please download and place plugin 'SME_PROJECTION_ENS.jar' in Plugins folder of Fiji/ImageJ
 
 2. Open image stack
 
