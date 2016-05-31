@@ -1,7 +1,4 @@
-# SME
-
 ## ImageJ Plugin instructions:
-
 
 Prerequisites:
 
