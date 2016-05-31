@@ -19,6 +19,6 @@ In case of advanced version, the user can execute the algorithm step-wise (Step 
 
 ## MatlaB Toolbox instructions:
 
-1. Please download the SME_toolbox and unzip the folder.
+1. Please download the SME_toolbox.rar and unzip the folder.
 
 2. Run the SME_demo.m
