@@ -16,9 +16,9 @@ Steps:
 
 3. Access plugin in simple or advanced mode from Plugins tab on Fiji/ImageJ 
 
-3.1 For simple version, select in case of multi-channel image, the channel to create reference manifold from and then to which channels to apply.
+For simple version, select in case of multi-channel image, the channel to create reference manifold from and then to which channels to apply.
 
-3.2 In case of advanced version, the user can execute the algorithm step-wise (Step 1-SML, Step2- Kmeans and Step 3- energy optimization) or all at once using the batch mode. All intermediate results and even the energy and PSI plots are generated as separate images.
+In case of advanced version, the user can execute the algorithm step-wise (Step 1-SML, Step2- Kmeans and Step 3- energy optimization) or all at once using the batch mode. All intermediate results and even the energy and PSI plots are generated as separate images.
 
 MatlaB Toolbox instructions:
 
