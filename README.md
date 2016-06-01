@@ -2,16 +2,16 @@
 
 Prerequisites:
 
-1. Java SDK 1.8 (link to download and install - http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
-Please note that, you need to uninstall java 1.7 and then install java 1.8. In this way, imageJ/Fiji will automatically detect java 1.8 and use it as default.
+1. Make sure Java SDK 1.8 or higher is installed on your system (link to download and install - http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+Please note that you will need to uninstall java 1.7 before installation of java 1.8. Once installed, imageJ/Fiji will automatically detect java 1.8 and use it as default.
 
 Steps:
 
-1. Please download and place plugin 'SME_PROJECTION_ENS.jar' in Plugins folder of Fiji/ImageJ
+1. Download and place plugin 'SME_PROJECTION_ENS.jar' in the 'plugins' folder of Fiji/ImageJ
 
-2. Open image stack
+2. Open an image stack
 
-3. Access plugin in simple or advanced mode from Plugins tab on Fiji/ImageJ 
+3. The plugin menu (plugin) Access the plugin in simple or advanced mode from Plugins tab on Fiji/ImageJ 
 
 For simple version, select in case of multi-channel image, the channel to create reference manifold from and then to which channels to apply.
 

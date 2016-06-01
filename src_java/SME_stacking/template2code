@@ -1,0 +1,99 @@
+/**
+
+%% final step - Zmap calculated
+
+qzr2=round(idmaxk);
+edgeflag2=edgeflag;
+A=Img;
+imageSize=size(A);
+qzr2(qzr2>k)=k;
+qzr2(qzr2<1)=1;
+%
+
+zprojf1=zeros(size(qzr2));
+
+for kin=min(qzr2(:)):max(qzr2(:))
+    temp=Img(:,:,kin);
+    zprojf1(qzr2==kin)=temp(qzr2==kin);
+end
+
+Manifold=idmaxk;
+OUTput_image=zprojf1;
+Classmap=double(edgeflag);
+%                        waitbar(1,h,'Manifold finalized...');close(h)
+
+totalz=sum(timk(:));
+sftz=[];
+
+for k=1:size(A,3)
+    sft=k-1;
+    qzr3=qzr2-sft;
+    qzr3(qzr3>imageSize(3))=imageSize(3);
+    qzr3(qzr3<1)=1;
+
+    zprojf1=zeros(size(qzr3));
+
+    for kin=min(qzr3(:)):max(qzr3(:))
+        temp=Img(:,:,kin);
+        zprojf1(qzr3==kin)=temp(qzr3==kin);
+    end
+
+    Gx = imfilter(zprojf1, M, 'replicate', 'conv');
+    Gy = imfilter(zprojf1, M', 'replicate', 'conv');
+    zprojf1 = abs(Gx) + abs(Gy);
+    zprojf2=zprojf1;
+    %          zprojf2(Classmap==1)=0;
+
+    qzr3=qzr2+sft;
+    qzr3(qzr3>imageSize(3))=imageSize(3);
+    qzr3(qzr3<1)=1;
+
+    zprojf1=zeros(size(qzr3));
+
+    for kin=min(qzr3(:)):max(qzr3(:))
+        temp=Img(:,:,kin);
+        zprojf1(qzr3==kin)=temp(qzr3==kin);
+    end
+
+    Gx = imfilter(zprojf1, M, 'replicate', 'conv');
+    Gy = imfilter(zprojf1, M', 'replicate', 'conv');
+    zprojf1 = abs(Gx) + abs(Gy);
+    % zprojf1(Classmap==1)=0;
+
+    sftz(k)=(sum(zprojf2(:))+sum(zprojf1(:)))/totalz;
+end
+
+sftzm=sftz;
+
+if doplot==1
+
+    col=cool(class);
+    classmap=zeros(size(Img,1),size(Img,2),3);
+
+    for xin=1:size(Img,1)
+        for yin=1:size(Img,2)
+            classmap(xin,yin,:)=col(edgeflag2(xin,yin),:);
+        end
+    end
+
+    figure()
+    imagesc(Manifold);
+    colormap((jet));  %# Change the colormap to gray (so higher values are
+    %   colorbar                       %#   black and lower values are white)
+    caxis manual
+    caxis([1 imageSize(3)])
+    colorbar
+
+    ha = axes('Position',[0 0 1 1],'Xlim',[0 1],'Ylim',[0 1],'Box','off','Visible','off','Units','normalized', 'clipping' , 'off');
+    %                                             text(0.7,.7,['Comparison of nMI' ],'HorizontalAlignment','center','VerticalAlignment', 'top');
+    set(gcf,'PaperPositionMode','auto')
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'FontName','Times','fontsize',10,'FontName','Times');
+    b = get(gca,'YTickLabel');
+    set(gca,'YTickLabel',b,'FontName','Times','fontsize',10,'FontName','Times');
+
+
+    print([nametex 'Manifold.png'], '-dpng', '-r300');
+    imwrite(uint16(65536*mat2gray(classmap)),[nametex 'KmeansCC.png']);
+    imwrite(uint16(65536*mat2gray(edgeflag)),[nametex 'KmeansG.png']);
+**/
