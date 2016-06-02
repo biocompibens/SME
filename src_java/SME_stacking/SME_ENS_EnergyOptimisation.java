@@ -503,6 +503,7 @@ public class SME_ENS_EnergyOptimisation {
             //        Integer.toString(iter) + " - COST = " + Double.toString(costIterStep));
             System.out.println("Progress Bar :: "+(dist2goal));
             sme_pluginGetManifold.updateProgressbar(dist2goal);
+            IJ.showStatus("                                 ");
         }
 
         sme_pluginGetManifold.setCostData(SME_ENS_Utils.realvec2Stack(cost));
