@@ -1,7 +1,6 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.process.FloatProcessor;
-
 /**
  * Compute max intensity projection.
  * */

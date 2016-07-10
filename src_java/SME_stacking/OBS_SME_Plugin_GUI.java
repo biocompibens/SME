@@ -1,4 +1,4 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 /**
  * Created by rexhepaj on 15/03/16.
@@ -281,8 +281,8 @@ public class OBS_SME_Plugin_GUI extends JFrame implements PlugInFilter , ActionL
         mThreadCountTF.setText(String.valueOf(Runtime.getRuntime().availableProcessors()));
         mThreadCountTF.setColumns(10);
         mTopPanel.setLayout(gridBagLayout1);
-        contentPane.add(mMessageAreaSP, BorderLayout.CENTER);
-        contentPane.add(mTopPanel, BorderLayout.NORTH);
+        contentPane.add(mMessageAreaSP, java.awt.BorderLayout.CENTER);
+        contentPane.add(mTopPanel, java.awt.BorderLayout.NORTH);
         mMessageAreaSP.getViewport().add(mMessageArea);
         mTopPanel.add(mCountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
                 , GridBagConstraints.EAST, GridBagConstraints.NONE,

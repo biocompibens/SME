@@ -1,12 +1,17 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.ImageStack;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.random.EmpiricalDistribution;
 import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+
 
 import java.text.DecimalFormat;
 

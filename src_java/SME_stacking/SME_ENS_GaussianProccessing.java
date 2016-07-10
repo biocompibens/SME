@@ -1,4 +1,4 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.ImagePlus;
 import ij.ImageStack;

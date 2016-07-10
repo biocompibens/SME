@@ -1,12 +1,21 @@
 /** Elton REXHEPAJ **/
 
 
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.ImagePlus;
 import ij.ImageStack;
+import ij.gui.GenericDialog;
+import ij.plugin.filter.EDM;
+import ij.plugin.filter.GaussianBlur;
 import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Arrays;
 
 //import java.util.Vector;
 //import ij.util.ArrayUtil;

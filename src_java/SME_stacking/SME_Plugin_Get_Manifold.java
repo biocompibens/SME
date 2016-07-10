@@ -3,18 +3,24 @@
 /** Asm SHIAVUDDIN **/
 /** Sreetama BASU **/
 
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
+import ij.gui.GenericDialog;
 import ij.gui.PlotMaker;
 import ij.plugin.ZProjector;
+import ij.plugin.filter.EDM;
+import ij.plugin.filter.GaussianBlur;
 import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
+import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 //import java.util.Vector;
 //import ij.util.ArrayUtil;
@@ -129,7 +135,7 @@ public class SME_Plugin_Get_Manifold implements PlugInFilter {
         ImageStack stack2 = stack.duplicate();   // Duplicates the original stack image
         ImageStack stack3 = stack.duplicate();   // Duplicates the original stack image
         ImageStack stack4 = stack.duplicate();   // Duplicates the original stack image
-
+        
     }
 
     public void runProjection(int methodProj){

@@ -1,4 +1,4 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import java.util.ArrayList;
 import java.util.Random;

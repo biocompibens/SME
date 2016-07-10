@@ -1,4 +1,4 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 public class SME_ENS_Filter_FFT_ {
 

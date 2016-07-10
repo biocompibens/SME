@@ -1,7 +1,8 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 // TODO Optimize imports by removing not necessary imports
 
+import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.plugin.filter.EDM;
@@ -12,9 +13,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.ml.clustering.CentroidCluster;
 import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rexhepaj on 17/03/16.
@@ -322,7 +321,7 @@ public class SME_ENS_Kmean_Control {
         final int numClust = numClust_;
         final double[][]  coordClust = result_fft;
 
-        List<SME_ENS_PixelPoints> clusterInput = new ArrayList<>(result_fft.length);
+        java.util.List<SME_ENS_PixelPoints> clusterInput = new ArrayList<>(result_fft.length);
 
         for (int i=0;i<result_fft.length;i++) {
             clusterInput.add(new SME_ENS_PixelPoints(MatrixUtils.createRealVector(result_fft[i]),i));

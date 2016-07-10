@@ -1,9 +1,6 @@
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -18,7 +15,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
     // an array of the simpler class Cluster at the conclusion.
     private ProtoCluster[] mProtoClusters;
 
-    // Cache of coordinate-to-cluster distances. Number of entries =
+    // Cache of coordinate-to-cluster distances. Number of entries = 
     // number of clusters X number of coordinates.
     private double[][] mDistanceCache;
 
@@ -41,7 +38,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
     // Subtask manager that handles the thread pool to which
     // time-consuming tasks are delegated.
     private SubtaskManager mSubtaskManager;
-
+    
     // An array of Cluster objects: the output of k-means.
     private SME_Cluster[] mClusters;
     private SME_Cluster[] mClusters2;
@@ -52,10 +49,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
 
     // Listeners to be notified of significant happenings.
     private List<SME_KMeansListener> mListeners = new ArrayList<SME_KMeansListener>(1);
-
+    
     /**
      * Constructor
-     *
+     * 
      * @param coordinates two-dimensional array containing the coordinates to be clustered.
      * @param k  the number of desired clusters.
      * @param maxIterations the maximum number of clustering iterations.
@@ -73,10 +70,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
     }
 
     /**
-     * Constructor that uses the return from
+     * Constructor that uses the return from 
      * <tt>Runtime.getRuntime().availableProcessors()</tt> as the number
      * of threads for time-consuming steps.
-     *
+     * 
      * @param coordinates two-dimensional array containing the coordinates to be clustered.
      * @param k  the number of desired clusters.
      * @param maxIterations the maximum number of clustering iterations.
@@ -84,7 +81,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
      */
     public SME_KMeans_Concurrent(double[][] coordinates, int k, int maxIterations,
                                  long randomSeed) {
-        this (coordinates, k, maxIterations, randomSeed,
+        this (coordinates, k, maxIterations, randomSeed, 
                 Runtime.getRuntime().availableProcessors());
     }
 
@@ -115,9 +112,9 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
         this.centerCoordinates = centerCoordinates;
     }
 
-    /**
+    /** 
      * Adds a KMeansListener to be notified of significant happenings.
-     *
+     * 
      * @param l  the listener to be added.
      */
     public void addKMeansListener(SME_KMeansListener l) {
@@ -127,10 +124,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             }
         }
     }
-
+    
     /**
      * Removes a KMeansListener
-     *
+     * 
      * @param l the listener to be removed.
      */
     public void removeKMeansListener(SME_KMeansListener l) {
@@ -138,10 +135,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             mListeners.remove(l);
         }
     }
-
+    
     /**
      * Posts a message to registered KMeansListeners.
-     *
+     * 
      * @param message
      */
     private void postKMeansMessage(String message) {
@@ -154,10 +151,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             }
         }
     }
-
+    
     /**
      * Notifies registered listeners that k-means is complete.
-     *
+     * 
      * @param clusters the output of clustering.
      * @param executionTime the number of milliseconds taken to cluster.
      */
@@ -171,12 +168,12 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             }
         }
     }
-
+    
     /**
      * Notifies registered listeners that k-means has failed because of
      * a Throwable caught in the run method.
-     *
-     * @param err
+     * 
+     * @param err 
      */
     private void postKMeansError(Throwable err) {
         if (mListeners.size() > 0) {
@@ -188,17 +185,17 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             }
         }
     }
-
+    
     /**
      * Get the clusters computed by the algorithm.  This method should
      * not be called until clustering has completed successfully.
-     *
+     * 
      * @return an array of Cluster objects.
      */
     public SME_Cluster[] getClusters() {
         return mClusters;
     }
-
+     
     /**
      * Run the clustering algorithm. Called by the Thread when start is called
      */
@@ -208,9 +205,9 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
 
             // Note the start time.
             long startTime = System.currentTimeMillis();
-
+            
             postKMeansMessage("K-Means clustering started");
-
+            
             // Randomly initialize the cluster centers creating the
             // array mProtoClusters.
             initCenters();
@@ -235,21 +232,21 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
 
             // Number of moves in the iteration and the iteration counter.
             int moves = 0, it = 0;
-
+            
             // Main Loop:
             //
             // Two stopping criteria:
-            // - no moves in makeAssignments
+            // - no moves in makeAssignments 
             //   (moves == 0)
             // OR
             // - the maximum number of iterations has been reached
             //   (it == mMaxIterations)
             //
             do {
-
+                
                 // Compute the centers of the clusters that need updating.
                 computeCenters();
-
+                
                 // Compute the stored distances between the updated clusters and the
                 // coordinates.
                 computeDistances();
@@ -258,7 +255,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
                 moves = makeAssignments();
 
                 it++;
-
+                
                 postKMeansMessage("... iteration " + it + " moves = " + moves);
 
             } while (moves > 0 && it < mMaxIterations);
@@ -272,11 +269,11 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             this.setmClusters2(mClusters);
 
             postKMeansComplete(mClusters, executionTime);
-
+            
         } catch (Throwable t) {
-
+           
             postKMeansError(t);
-
+            
         } finally {
 
             // Clean up temporary data structures used during the algorithm.
@@ -291,10 +288,10 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
     private void initCenters() {
 
         Random random = new Random(mRandomSeed);
-
+        
         int coordCount = mCoordinates.length;
 
-        // The array mClusterAssignments is used only to keep track of the cluster
+        // The array mClusterAssignments is used only to keep track of the cluster 
         // membership for each coordinate.  The method makeAssignments() uses it
         // to keep track of the number of moves.
         if (mClusterAssignments == null) {
@@ -325,15 +322,15 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             mClusterAssignments[indices[i]] = i;
         }
     }
-
+    
     /**
-     * Recompute the centers of the protoclusters with
+     * Recompute the centers of the protoclusters with 
      * update flags set to true.
      */
     private void computeCenters() {
-
+        
         int numClusters = mProtoClusters.length;
-
+        
         // Sets the update flags of the protoclusters that haven't been deleted and
         // whose memberships have changed in the iteration just completed.
         //
@@ -343,7 +340,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
                 if (!cluster.isEmpty()) {
                     // This sets the protocluster's update flag to
                     // true only if its membership changed in last call
-                    // to makeAssignments().
+                    // to makeAssignments().  
                     cluster.setUpdateFlag();
                     // If the update flag was set, update the center.
                     if (cluster.needsUpdate()) {
@@ -359,21 +356,21 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
         }
     }
 
-    /**
+    /** 
      * Compute distances between coodinates and cluster centers,
      * storing them in the distance cache.  Only distances that
      * need to be computed are computed.  This is determined by
      * distance update flags in the protocluster objects.
      */
     private void computeDistances() throws SME_InsufficientMemoryException {
-
+        
         if (mDistanceCache == null) {
             int numCoords = mCoordinates.length;
             int numClusters = mProtoClusters.length;
             // Explicit garbage collection to reduce likelihood of insufficient
             // memory.
             System.gc();
-            // Ensure there is enough memory available for the distances.
+            // Ensure there is enough memory available for the distances.  
             // Throw an exception if not.
             long memRequired = 8L * numCoords * numClusters;
             if (Runtime.getRuntime().freeMemory() < memRequired) {
@@ -383,13 +380,13 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
             // and cluster centers
             mDistanceCache = new double[numCoords][numClusters];
         }
-
+        
         // Bulk of the work is delegated to the
         // SubtaskManager.
         mSubtaskManager.computeDistances();
     }
-
-    /**
+    
+    /** 
      * Assign each coordinate to the nearest cluster.  Called once
      * per iteration.  Returns the number of coordinates that have
      * changed their cluster membership.
@@ -431,7 +428,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
         }
         return nearest;
     }
-
+ 
     /**
      * Compute the euclidean distance between the two arguments.
      */
@@ -447,13 +444,13 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
 
     /**
      * Generate an array of Cluster objects from mProtoClusters.
-     *
+     * 
      * @return array of Cluster object references.
      */
     private SME_Cluster[] generateFinalClusters() {
-
+        
         int numClusters = mProtoClusters.length;
-
+        
         // Convert the proto-clusters to the final Clusters.
         //
         // - accumulate in a list.
@@ -465,7 +462,7 @@ public class SME_KMeans_Concurrent implements SME_KMeans_Paralel {
                 clusterList.add(cluster);
             }
         }
-
+    
         // - convert list to an array.
         SME_Cluster[] clusters = new SME_Cluster[clusterList.size()];
         clusterList.toArray(clusters);

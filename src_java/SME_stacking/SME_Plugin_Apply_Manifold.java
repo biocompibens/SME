@@ -3,15 +3,23 @@
 /** Asm SHIAVUDDIN **/
 /** Sreetama BASU **/
 
-package SME_PROJECTION_SRC;
+package ij.plugin.filter.SME_PROJECTION_SRC;
 
 import ij.*;
 import ij.gui.GenericDialog;
+import ij.plugin.CompositeConverter;
 import ij.plugin.PlugIn;
-import ij.process.FloatProcessor;
-import ij.process.ImageProcessor;
+import ij.plugin.filter.EDM;
+import ij.plugin.filter.GaussianBlur;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.*;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.IndexColorModel;
+import java.util.Arrays;
 
 //import java.util.Vector;
 //import ij.util.ArrayUtil;
