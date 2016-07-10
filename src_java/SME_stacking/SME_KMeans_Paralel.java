@@ -11,10 +11,10 @@ public interface SME_KMeans_Paralel extends Runnable {
      * @param l  the listener to be added.
      */
     public void addKMeansListener(SME_KMeansListener l);
-
+    
     /**
      * Removes a KMeansListener from the listener list.
-     *
+     * 
      * @param l the listener to be removed.
      */
     public void removeKMeansListener(SME_KMeansListener l);

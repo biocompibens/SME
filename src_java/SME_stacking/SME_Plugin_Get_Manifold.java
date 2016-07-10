@@ -133,6 +133,7 @@ public class SME_Plugin_Get_Manifold implements PlugInFilter {
     }
 
     public void runProjection(int methodProj){
+        IJ.showProgress((progressbar));
         ZProjector zproject = new ZProjector();
         zproject.setImage(rawImage.duplicate());
         zproject.setMethod(methodProj);
@@ -143,14 +144,21 @@ public class SME_Plugin_Get_Manifold implements PlugInFilter {
     public void runKmeans(Boolean showIntResults){
         SME_ENS_Kmean_Control smlPlugin = new SME_ENS_Kmean_Control(this);
         smlPlugin.applyKmeans(showIntResults);
+        IJ.showProgress((progressbar));
     }
 
     public void runSml(Boolean showIntResults){
+        IJ.showProgress((progressbar));
         SME_ENS_Sml smlPlugin = new SME_ENS_Sml(this);
-        smlPlugin.applySML(showIntResults);
+
+        //TODO: Replace line below with dummy sml with the line below if SML is activated
+        //smlPlugin.applySML(showIntResults);
+        smlPlugin.applySMLdummy(showIntResults);
+        IJ.showProgress((progressbar));
     }
 
     public void runEnergyOptimisation(Boolean showIntResults){
+        IJ.showProgress((progressbar));
         SME_ENS_EnergyOptimisation enOpt = new SME_ENS_EnergyOptimisation(this);
         enOpt.applyEnergyOptimisation(showIntResults);
         enOpt.setOutputManifold(showIntResults);

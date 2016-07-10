@@ -1,21 +1,20 @@
 package SME_PROJECTION_SRC;
 
-import ij.IJ;
-import ij.ImagePlus;
-import ij.ImageStack;
-import ij.WindowManager;
+import ij.*;
 import ij.gui.GenericDialog;
 import ij.plugin.ChannelSplitter;
 import ij.plugin.PlugIn;
+import ij.plugin.RGBStackMerge;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
 
 import static java.util.stream.Collectors.toList;
 
@@ -71,7 +70,7 @@ public class SME_Plugin_Simple implements PlugIn {
         smePlugin.updateProgressbar(0.3);
         //IJ.showStatus("Running Energy Optimisation");
         runEnoptStep();
-        smePlugin.updateProgressbar(1);
+
         //IJ.showStatus("Finished");
     }
 
@@ -91,18 +90,19 @@ public class SME_Plugin_Simple implements PlugIn {
 
     /** Combines up to seven grayscale stacks into one RGB or composite stack. */
     public void processChannelsManifold() {
-        int[] wList         = WindowManager.getIDList();
-        if (wList==null) {
-            error("No images are open.");
-            return;
-        }else if(wList.length>1){
-            error("There must be at most one image open: either 1) Mono-chromatic stack or 2) Stack of composite images (Hyperstack)");
+
+        if (WindowManager.getCurrentImage()==null) {
+            error("No images is selected.");
             return;
         }
 
-        if(WindowManager.getImage(wList[0]).isHyperStack()){
+        if(WindowManager.getCurrentImage().isHyperStack()){
             // hyperstack color
-            processChannelsManifoldColors();
+            try {
+                processChannelsManifoldColors();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
         }else{
             // monochromatic image
             processChannelsManifoldSimple();
@@ -110,8 +110,8 @@ public class SME_Plugin_Simple implements PlugIn {
     }
 
     public void processChannelsManifoldSimple() {
-        int[] wList         = WindowManager.getIDList();
         images = new ImagePlus[1];
+        images[0] = WindowManager.getCurrentImage();
 
         stackSize = 0;
         width = 0;
@@ -123,7 +123,6 @@ public class SME_Plugin_Simple implements PlugIn {
 
         {
                 i = 0;
-                images[i] = WindowManager.getImage(wList[i]);
                 if(width<images[i].getWidth()){width = images[i].getWidth();}
                 if(height<images[i].getHeight()){height = images[i].getHeight();}
                 if(stackSize<images[i].getStackSize()){stackSize = images[i].getStackSize();}
@@ -141,20 +140,40 @@ public class SME_Plugin_Simple implements PlugIn {
         manifoldModel = smePlugin.getMfoldImage();
         //manifoldModel.show();
         smePlugin.getSmeImage().show();
+        smePlugin.updateProgressbar(1);
     }
 
-    public void processChannelsManifoldColors() {
-        int[] wList         = WindowManager.getIDList();
+    public void processChannelsManifoldColors() throws NoSuchMethodException {
+        ImagePlus hyperStackSME = WindowManager.getCurrentImage();
+        images = ChannelSplitter.split(hyperStackSME);
+
+        // get channel color ids
+        Color[]  colors1 = new Color[images.length];
+        for(int i=0;i<images.length;i++){
+            hyperStackSME.setC(i+1);
+            colors1[i] = (((CompositeImage) hyperStackSME).getChannelColor());
+        }
+
+        maxChannels         = images.length;
         projectionStacks    = new ImagePlus[maxChannels];
-        maxChannels         = 3;
+        String[] titles = new String[images.length];
 
-        ImagePlus hyperStackSME = WindowManager.getImage(wList[0]);
-
-        String[] titles = new String[3];
-
-        titles[0] = "Red channel";
-        titles[1] = "Green channel";
-        titles[2] = "Blue channel";
+        for(int i=0;i<images.length;i++){
+            if(colors1[i].equals(Color.RED))
+                titles[i] = "Channel-RED";
+            else if(colors1[i].equals(Color.GREEN))
+                titles[i] = "Channel-GREEN";
+            else if(colors1[i].equals(Color.BLUE))
+                titles[i] = "Channel-BLUE";
+            else if(colors1[i].equals(Color.GRAY))
+                titles[i] = "Channel-GRAY";
+            else if(colors1[i].equals(Color.CYAN))
+                titles[i] = "Channel-CYAN";
+            else if(colors1[i].equals(Color.MAGENTA))
+                titles[i] = "Channel-MAGENTA";
+            else if(colors1[i].equals(Color.yellow))
+                titles[i] = "Channel-YELLOW";
+        }
 
         String[] names = titles;
         boolean createComposite = staticCreateComposite;
@@ -162,7 +181,7 @@ public class SME_Plugin_Simple implements PlugIn {
         ignoreLuts = staticIgnoreLuts;
 
         GenericDialog gd = new GenericDialog("SME Stacking");
-        gd.addChoice("Extract manifold from", titles, "*none*");
+        gd.addChoice("Extract manifold from", titles, titles[0]);
 
         //gd.addCheckbox("Create composite", createComposite);
         //gd.addCheckbox("Keep source images", keep);
@@ -172,7 +191,7 @@ public class SME_Plugin_Simple implements PlugIn {
             return;
 
         int index = gd.getNextChoiceIndex();
-        images = new ImagePlus[maxChannels];
+        //images = new ImagePlus[maxChannels];
 
         stackSize = 0;
         width = 0;
@@ -181,8 +200,25 @@ public class SME_Plugin_Simple implements PlugIn {
         int slices = 0;
         int frames = 0;
 
-        images = ChannelSplitter.split(hyperStackSME);
         stackSize = images[0].getStackSize();
+
+        for(int i=0;i<images.length;i++) {
+            Object pixVal = images[i].getStack().getPixels(1);
+            Method setType = images[i].getStack().getClass().getDeclaredMethod("setType", Object.class);
+            setType.setAccessible(true);
+            try {
+                setType.invoke(images[i].getStack(), pixVal);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //for(int i=0;i<images.length;i++){
+        //    Object pixVal = images[i].getStack().getPixels(1);
+        //    images[i].getStack().setType(pixVal);
+        //}
 
         // run manifold extraction on the first channel
         getManifold(index);
@@ -197,14 +233,24 @@ public class SME_Plugin_Simple implements PlugIn {
             listChannels.add(images[i]);
         }
 
-        /**List<ImagePlus> processedImages = listChannels.stream().
+        List<ImagePlus> processedImages = listChannels.stream().
          map(channelIt ->{
          ImagePlus itIm =  applyStackManifold(((ImagePlus)channelIt).getStack(), manifoldModel);
-         //itIm.show();
          return itIm;})
-         .collect(toList());**/
+         .collect(toList());
 
-        ForkJoinPool forkJoinPool = new ForkJoinPool(8);
+        ImagePlus[] vecChannels = new ImagePlus[images.length];
+
+        for(int i=0; i<processedImages.size(); i++){
+            if(images[i]==null) break;
+            vecChannels[i]= processedImages.get(i);
+        }
+
+        RGBStackMerge channelMerger = new RGBStackMerge();
+        ImagePlus mergedHyperstack  = channelMerger.mergeHyperstacks(vecChannels,false);
+        mergedHyperstack.show();
+
+        /*ForkJoinPool forkJoinPool = new ForkJoinPool(8);
         CompletableFuture<List<ImagePlus>> processedImages =  CompletableFuture.supplyAsync(()->
 
                         listChannels.parallelStream().
@@ -214,7 +260,9 @@ public class SME_Plugin_Simple implements PlugIn {
                                     return itIm;})
                                 .collect(toList()),
                 forkJoinPool
-        );
+        );*/
+
+        smePlugin.updateProgressbar(1);
     }
 
 

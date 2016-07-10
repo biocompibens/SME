@@ -156,7 +156,6 @@ public final class SME_ENS_Utils {
         return(padedMatrix);
     }
 
-
     public static ImageStack find_base(RealMatrix inMatrix, int indexK, Boolean removeSlice){
         int nrowsMat = inMatrix.getRowDimension();
         int ncolsMat = inMatrix.getColumnDimension();
@@ -195,7 +194,6 @@ public final class SME_ENS_Utils {
 
         return(baseMatrix);
     }
-
 
     public static ImageStack repmatMatrixVar(RealMatrix inMatrix, ImageStack base){
         //varold2=sum((base-repmat(Mold,[1 1 8])).^2,3);
@@ -241,7 +239,6 @@ public final class SME_ENS_Utils {
 
         return(retuRealMatrix);
     }
-
 
     public static RealMatrix realmatrixDoublepow(RealMatrix inMatrix, double expPow){
         int nrows = inMatrix.getRowDimension();
@@ -360,7 +357,7 @@ public final class SME_ENS_Utils {
         return(retVector);
     }
 
-    public static RealVector realmatSelectVector(RealMatrix inMatrix,RealMatrix selectMatrix, int valueSelect){
+    public static RealVector realmatSelectVector(RealMatrix inMatrix,RealMatrix selectMatrix, double valueSelect){
         RealVector retVector = MatrixUtils.createRealVector(new double[0]);
 
         int ncols = inMatrix.getColumnDimension();
@@ -376,6 +373,20 @@ public final class SME_ENS_Utils {
 
 
         return(retVector);
+    }
+
+    public static void realmatSetVector(RealMatrix inMatrix,RealMatrix selectMatrix, double valueSelect, double setValue){
+
+        int ncols = inMatrix.getColumnDimension();
+        int nrows = inMatrix.getRowDimension();
+
+        for(int j=0;j<ncols;j++){
+            for(int i=0;i<nrows;i++){
+                if(selectMatrix.getEntry(i,j)==valueSelect) {
+                    inMatrix.setEntry(i,j,setValue);
+                }
+            }
+        }
     }
 
     public static int getLastindComp(RealVector vec1, RealVector vec2){
@@ -438,6 +449,17 @@ public final class SME_ENS_Utils {
         //System.out.printf("Mode value : ");System.out.printf(df2.format(StatUtils.mode(dataStream)));System.out.printf("\n");
         //System.out.printf("25% value : ");System.out.printf(df2.format(StatUtils.percentile(dataStream,0.25)));System.out.printf("\n");
         //System.out.printf("75% value : ");System.out.printf(df2.format(StatUtils.percentile(dataStream,0.75)));System.out.printf("\n");
+    }
+
+    public static double realvectorMean(RealVector vectorIn){
+        double returnMean   = 0;
+        double numElements  = (double) vectorIn.getDimension();
+
+        for(int i=0; i<numElements;i++){
+            returnMean = returnMean + vectorIn.getEntry(i);
+        }
+
+        return returnMean/numElements;
     }
 
     public static RealVector getHistogramRealvec(RealVector inVector , RealVector histParam){
