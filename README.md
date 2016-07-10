@@ -13,7 +13,7 @@ Usage:
 
 1. Open an image stack
 
-2. In the "plugins>SME Stacking" submenu press "SME Stacking". If the stack is single channel, it will be processed directly. If the stack is multi channel, you will be asked to specify the reference channel from which the manifold is computed. The extraction is then processed from all channel to produced a color 2D image. 
+2. In the "plugins" menu press "SME Stacking". If the stack is single channel, it will be processed directly. If the stack is multi channel, you will be asked to specify the reference channel from which the manifold is computed. The extraction is then processed from all channel to produced a color 2D image. 
 
 ## Matlab Toolbox instructions:
 
