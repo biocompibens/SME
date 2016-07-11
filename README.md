@@ -19,4 +19,4 @@ Usage:
 
 1. clone the src_matlab folder
 
-2. Run the SME_demo.m
+2. Run the 'SME_demo_single_channel.m' for single channel stack and run the 'SME_demo_multiple_channel.m' for multi channel stack
