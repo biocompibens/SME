@@ -12,7 +12,7 @@ Usage:
 
 1. Open an image stack
 
-2. In the "plugins" menu press "SME Stacking". If the stack is single channel, it will be processed directly. If the stack is multi channel (that you can create from separate channels using "Image>Color>Merge Channels"), you will be asked to specify the reference channel from which the manifold is computed. The extraction is then processed from all channel to produced a color 2D image. 
+2. In the "plugins" menu press "SME Stacking". If the stack is single channel, it will be processed directly. If the stack is multi channel (can be create from separate channels using "Image>Color>Merge Channels"), you will be asked to specify the reference channel from which the manifold is computed. The extraction is then processed from all channel to produced a color 2D image. 
 
 3. Be patient! Depending on the size of the image the process can take between 1 and 10 minutes.
 
