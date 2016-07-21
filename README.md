@@ -21,3 +21,8 @@ Usage:
 1. Clone the src_matlab folder
 
 2. Run the 'SME_demo_single_channel.m' for single channel stack and run the 'SME_demo_multiple_channel.m' for multi channel stack
+
+## Sample datasets:
+
+The sample_datasets folder contains sample 3D image stack one or two channels
+
