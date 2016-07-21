@@ -24,5 +24,5 @@ Usage:
 
 ## Sample datasets:
 
-The sample_datasets folder contains sample 3D image stack one or two channels
+The sample_datasets folder contains sample 3D image stack with one or two channels
 
