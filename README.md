@@ -4,9 +4,9 @@ Prerequisites and installation:
 
 1. If Fiji/ImageJ is not installed then download and install a version preferably bundled with JRE 1.8 (http://imagej.net/Fiji/Downloads). 
 
-2. If you have an ImageJ or Fiji version already installed, make sure Java SDK 1.8 or higher is also installed on your system (or download and install it from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+2. If you have an ImageJ or Fiji version already installed, make sure it is unsing Java 1.8 or higher.
 
-3. Download and place plugin 'SME_stacking.jar' in the 'plugins' folder of your Fiji/ImageJ installation.
+3. Download 'SME_stacking.zip' and unzip it. Place SME_stacking.jar in the 'plugins' folder of your Fiji/ImageJ installation.
 
 Usage:
 
