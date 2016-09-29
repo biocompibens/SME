@@ -63,8 +63,8 @@ axis off
 set(gcf,'color','w');
             
             colorbar
-            addpath([cd filesep 'export_fig-master']);
-            export_fig([nametex 'SME_FinalZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
+%             addpath([cd filesep 'export_fig-master']);
+%             export_fig([nametex 'SME_FinalZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
   
                 C = colormap; 
                 L = size(C,1);
@@ -86,7 +86,7 @@ set(gcf,'color','w');
             caxis manual
             caxis([1 size(Img,3)]);
             colorbar   
-            export_fig([nametex 'SME_InitialZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
+%             export_fig([nametex 'SME_InitialZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
 
   
                 C = colormap; 
