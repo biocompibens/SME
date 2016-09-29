@@ -1,19 +1,54 @@
-function [OUTput_image,Manifold,Classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method(Img)
+function [OUTput_image,Manifold,Classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method(Img,nametex2)
+% Img=Img1;
 %This funtion finds the single manifod in the stack where the object is located. The final output should be the image created from that manifold. The input image should be a stack.
 
 M = [-1 2 -1];%SML operator
 [sz1,sz2,sz3]=size(Img);
 npxl=sz1*sz2;
+% timk=double(Img);
+% hG = fspecial('gaussian',[5 5],1);                     
+%% SML Extraction
+%                for k=1:size(Img,3)
+%                    timg=Img(:,:,k);   
+% %                       timg = imfilter(timg,hG,'replicate'); 
+% %                       Gx = imfilter(timg, M, 'replicate', 'conv');
+% %                       Gy = imfilter(timg, M', 'replicate', 'conv');
+% %                       timk(:,:,k) = abs(Gx) + abs(Gy);
+%                        timk(:,:,k) = timg;
+%                end   
       
 %% Fourier transform and kmeans
                class=3;%background, uncertain and foreground
                Norm=2;
+%                 zprof1=reshape(double(Img),[size(Img,1)*size(Img,2) size(Img,3)]); 
                zprof2=reshape(Img,[size(Img,1)*size(Img,2) size(Img,3)]); 
-              
-                               tempt=abs(fft(zprof2,size(Img,3),2));
-                       tempt(:,[1 ceil(size(Img,3)/2)+1:end])=[];
-               tempt=tempt./repmat((max(tempt,[],1)-min(tempt,[],1)),[size(tempt,1) 1]);
                
+            
+               
+%                  p2 = nextpow2(size(zprof2,2));
+%                  hi = 2^p2;
+% %
+%                  zprof2k=zeros(size(zprof2,1),hi-p2);
+%                  zprof2=[zprof2 zprof2k];
+%
+%
+
+                               tempt=abs(fft(zprof2,size(Img,3),2));
+
+
+                       tempt(:,[1 ceil(size(Img,3)/2)+1:end])=[];
+                       
+%                         tempt1=abs(fft(zprof1,size(Img,3),2));
+% 
+% 
+%                        tempt1(:,[1 ceil(size(Img,3)/2)+1:end])=[];
+                       
+%                      tempt=[tempt tempt1];  
+			   
+%               tempt=abs(fft(zprof2,size(Img,3),2));
+
+ %              tempt(:,[1 ceil(size(Img,3)/2):end])=[];  
+               tempt=tempt./repmat((max(tempt,[],1)-min(tempt,[],1)),[size(tempt,1) 1]);
                [idx,c]=kmeans(tempt,class);
                 [~,I] = sort(sum(c,2),1);
                 idxt=idx;
@@ -27,6 +62,7 @@ npxl=sz1*sz2;
                      edgeflag=reshape(idx,[size(Img,1) size(Img,2)]); 
                  edgeflag2=double((edgeflag-1)/Norm); 
                   edgeflag3k=double((edgeflag-1)/2); 
+%                   edgeflag3k(edgeflag3k==1/2)=0;
                  
                                [valk,idmax]=max(Img,[],3); 
                              k=size(Img,3);
@@ -35,7 +71,8 @@ npxl=sz1*sz2;
                                     ncf=ncf/sum(ncf);
 
                                 [ncb,hcb]=hist(valk(edgeflag2==0.5),linspace(min(valk(:)),max(valk(:)),100));
-                                    ncb=ncb/sum(ncb);                                     
+                                    ncb=ncb/sum(ncb); 
+                                    
 nt= find(ncb>ncf,1,'last');
 ht=hcb(nt); 
 idmaxini=idmax;
@@ -61,6 +98,7 @@ overlap2=sum(valk(edgeflag2==1)<=ht)./sum(valk(edgeflag2==1)>ht);
                           MD=Mold-Mold;
 
                            s01=sqrt((varold2+(M10).*(idmaxk-(Mold+(M10)./9)))./8);
+                          
                            sD=sqrt((varold2+(MD).*(Mold-(Mold+(MD)./9)))./8);
                            
                            sgain=s01-sD;
@@ -74,24 +112,37 @@ overlap2=sum(valk(edgeflag2==1)<=ht)./sum(valk(edgeflag2==1)>ht);
                            
                            WA=dg./sg;
                            lambda1=abs(quantile(WA(:),overlap2));
-                                                            
+                           
+%                            if WW<9
+%                                WW=9;
+%                            end
+                                  
 %% Finding the Lambda(W1) parameter
 
 meanfg=mean(valk(edgeflag2==1));
 meansfg=mean(valk(edgeflag2==0.5));
 meanbg=mean(valk(edgeflag2==0));
 
+
 RT=(meansfg-meanbg)./(meanfg-meanbg);
 
-C1=1./lambda1;
-C2=RT./lambda1;
-C3=0./lambda1;
+CD=3/3;
+C1=CD*1./lambda1;
+C2=CD*RT./lambda1;
+C3=CD*0./lambda1;
 
 WW=1;
+
 edgeflag3k(edgeflag2==1)=C1;  
 edgeflag3k(edgeflag2==0.5)=C2; 
 edgeflag3k(edgeflag2==0)=C3;  
                            
+%                            if WW<9
+%                                WW=9;
+%                            end
+                                  
+
+
 %% Finding step size and stopping criteria(epsilon) relative to stack size
                 KE= max(idmax(edgeflag2>0))- min(idmax(edgeflag2>0))+1;  
                 step=KE/100;
@@ -147,7 +198,11 @@ edgeflag3k(edgeflag2==0)=C3;
                 cost(1:2)=[];
                                
 qzr2=round(idmaxk);
-
+A=Img;
+imageSize=size(A);
+%                          qzr2(qzr2>k)=k;
+%                              qzr2(qzr2<1)=1;
+% 
                            zprojf1=zeros(size(qzr2));
                            
                            for kin=min(qzr2(:)):max(qzr2(:))
@@ -158,3 +213,48 @@ qzr2=round(idmaxk);
                        Manifold=idmaxk;%final Z map
                        OUTput_image=zprojf1;% composite image
                        Classmap=double(edgeflag);%kmeans class map
+                       
+%% PSI calculation
+%      totalz=sum(timk(:));
+%   sftz=[];
+%   for k=1:size(A,3)
+%       sft=k-1;      
+%        qzr3=qzr2-sft;
+%         qzr3(qzr3>imageSize(3))=imageSize(3);
+%                              qzr3(qzr3<1)=1;
+%                              
+%                            zprojf1=zeros(size(qzr3));
+%                            
+%                            for kin=min(qzr3(:)):max(qzr3(:))
+%                                temp=Img(:,:,kin);
+%                                 zprojf1(qzr3==kin)=temp(qzr3==kin);                               
+%                            end
+%                                
+%                       Gx = imfilter(zprojf1, M, 'replicate', 'conv');
+%                       Gy = imfilter(zprojf1, M', 'replicate', 'conv');                                            
+%                       zprojf1 = abs(Gx) + abs(Gy);                     
+%                      zprojf2=zprojf1; 
+% 
+%                      qzr3=qzr2+sft;
+%                    qzr3(qzr3>imageSize(3))=imageSize(3);
+%                              qzr3(qzr3<1)=1;
+%                            
+%                            zprojf1=zeros(size(qzr3));
+%                            
+%                            for kin=min(qzr3(:)):max(qzr3(:))
+%                                temp=Img(:,:,kin);
+%                                 zprojf1(qzr3==kin)=temp(qzr3==kin);                               
+%                            end
+%                            
+%                          Gx = imfilter(zprojf1, M, 'replicate', 'conv');
+%                       Gy = imfilter(zprojf1, M', 'replicate', 'conv');                                            
+%                       zprojf1 = abs(Gx) + abs(Gy);
+% 
+% sftz(k)=(sum(zprojf2(:))+sum(zprojf1(:)))/totalz;
+%   end
+% 
+%   sftzm=sftz;
+%   sftz(1:2)=[];
+% sftz2=mat2gray(sftz);
+% PSI=1-sum(sftz2)./length(sftz2);
+
