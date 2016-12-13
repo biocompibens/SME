@@ -22,6 +22,18 @@ name{1} = FileName;
 % name{2} = 'shRddendrites_cropped_1.tif'; %reference channel based on which the manifold is constructed and applied to all channels
 %name{3} = 'shRddendrites_cropped_2.tif';
 
+
+prompt={'How many Layer to add above manifold?','How many Layer to add below manifold?'};
+% Create all your text fields with the questions specified by the variable prompt.
+title='User interface'; 
+% The main title of your input dialog interface.
+
+defaultanswer = {'0','0'};
+numlines=1;
+answer=inputdlg(prompt,title,numlines,defaultanswer);
+UCH = str2double(answer{1}); 
+BCH = str2double(answer{2});
+
 %%%%%%%%%%%%%%%%%%%example 1
 kid=[1]; % set as 1 or 2
 fname=name{kid};
@@ -47,12 +59,18 @@ Img=Img1;
 %  fname=strrep(fname,'_',' '); 
 
 if strcmp(ButtonName,'Confocal')
-[zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method(Img1,nametex2); 
+[zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_MIP(Img1,nametex2); 
 elseif strcmp(ButtonName,'Widefield')
 [zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_SML(Img1,nametex2); 
 end
+
+layer_up=UCH;
+layer_down=BCH;
+
+zprojf1=FV1_make_projection_from_layer(Img1,round(qzr2),layer_up,layer_down);
+
    figure; 
-            colormap(jet) 
+            colormap(bone) 
             imagesc(qzr2);
 %             axis tight
             caxis manual
@@ -76,7 +94,7 @@ set(gcf,'color','w');
             close all  
             
              figure 
-           colormap(jet)
+           colormap(bone)
             imagesc(idmaxini);
               
 %             axis tight
@@ -176,7 +194,7 @@ end
                     zmap=round(qzr2);
                     zmap(zmap>k)=k;
                     zmap(zmap<1)=1;
-                    zprojf2=FV1_make_projection_from_layer(Img2,zmap,0,0);
+                    zprojf2=FV1_make_projection_from_layer(Img2,zmap,layer_up,layer_down);
                     imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel2.png']);
  end
 close all

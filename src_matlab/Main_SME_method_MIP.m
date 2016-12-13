@@ -1,4 +1,4 @@
-function [OUTput_image,Manifold,Classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_SML(Img,nametex2)
+function [OUTput_image,Manifold,Classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_MIP(Img,nametex2)
 % Img=Img1;
 %This funtion finds the single manifod in the stack where the object is located. The final output should be the image created from that manifold. The input image should be a stack.
 
@@ -6,16 +6,16 @@ M = [-1 2 -1];%SML operator
 [sz1,sz2,sz3]=size(Img);
 npxl=sz1*sz2;
 timk=double(Img);
-sigma=find_sigma(Img)
-hG = fspecial('gaussian',[25 25],sigma+0.01); 
+% sigma=find_sigma_MIP(Img)
+% hG = fspecial('gaussian',[25 25],sigma+0.01); 
 
 %% SML Extraction
                for k=1:size(Img,3)
                    timg=Img(:,:,k);   
-                    timg = imfilter(timg,hG,'symmetric');  
-                      Gx = imfilter(timg, M, 'replicate', 'conv');
-                      Gy = imfilter(timg, M', 'replicate', 'conv');
-                      timk(:,:,k) = abs(Gx) + abs(Gy);
+%                     timg = imfilter(timg,hG,'symmetric');  
+%                       Gx = imfilter(timg, M, 'replicate', 'conv');
+%                       Gy = imfilter(timg, M', 'replicate', 'conv');
+                      timk(:,:,k) = timg;
                end   
       
 %% Fourier transform and kmeans
@@ -63,7 +63,7 @@ hG = fspecial('gaussian',[25 25],sigma+0.01);
                  edgeflag2=double((edgeflag-1)/Norm); 
                   edgeflag3k=double((edgeflag-1)/2); 
 %                   edgeflag3k(edgeflag3k==1/2)=0;
-                 
+                % timk=Img;
                                [valk,idmax]=max(timk,[],3); 
                              k=size(Img,3);
 %% Finding the Lambda(W1) parameter

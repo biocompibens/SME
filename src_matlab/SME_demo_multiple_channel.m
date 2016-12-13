@@ -19,15 +19,24 @@ dname = uigetdir(PathName,'Select where to save the result?');
                          'Imaging modality', ...
                          'Confocal', 'Widefield', 'Blue');
 
-prompt={'How many channels are there?','Which is your reference channel?','Which channel you want to project first?','Which channel you want to project second?'};
+prompt={'How many channels are there?','Which is your reference channel?','How many Layer to add above manifold?','How many Layer to add below manifold?'};
 % Create all your text fields with the questions specified by the variable prompt.
 title='User interface'; 
+defaultanswer = {'3','1','0','0'};
+numlines=1;
+answer=inputdlg(prompt,title,numlines,defaultanswer);
 % The main title of your input dialog interface.
-answer=inputdlg(prompt,title);
+% answer=inputdlg(prompt,title);
 NCH = str2double(answer{1}); 
 RCH = str2double(answer{2});
-PCH = str2double(answer{3});
-PCH2 = str2double(answer{4});
+% PCH = str2double(answer{3});
+% PCH2 = str2double(answer{4});
+UCH = str2double(answer{3}); 
+BCH = str2double(answer{4});
+
+layer_up=UCH;
+layer_down=BCH;
+
 % Convert these values to a number using str2num.
 % name = answer{3};
 
@@ -65,7 +74,7 @@ Img=Img1;
 
 
 if strcmp(ButtonName,'Confocal')
-[zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method(Img1,nametex2); 
+[zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_MIP(Img1,nametex2); 
 elseif strcmp(ButtonName,'Widefield')
 [zprojf1,qzr2,classmap,idmaxini,cost,WW,C1,C2,C3]=Main_SME_method_SML(Img1,nametex2); 
 end
@@ -74,7 +83,7 @@ end
 
 
    figure; 
-            colormap(jet) 
+            colormap(bone) 
             imagesc(qzr2);
 %             axis tight
             caxis manual
@@ -98,7 +107,7 @@ set(gcf,'color','w');
             close all  
             
              figure 
-           colormap(jet)
+           colormap(bone)
             imagesc(idmaxini);
               
 %             axis tight
@@ -167,7 +176,13 @@ set(gcf,'Units','inches');
 %  if(kid==2)
 
 % [FileName2,PathName2] = uigetfile({'*.tif';'*.tiff'},'Select the second tif file');
-%   fname=strrep(fname,'1','2');  
+%   fname=strrep(fname,'1','2'); 
+
+COLOR_SME=uint16(zeros(size(Img,1),size(Img,2),max([3 NCH])));
+COLOR_MIP=uint16(zeros(size(Img,1),size(Img,2),max([3 NCH])));
+
+for PCH=1:NCH
+
  Img2=[];
  
  kin=1;
@@ -179,25 +194,30 @@ end
                     zmap=round(qzr2);
                     zmap(zmap>k)=k;
                     zmap(zmap<1)=1;
-                    zprojf2=FV1_make_projection_from_layer(Img2,zmap,0,0);
+                    zprojf2=FV1_make_projection_from_layer(Img2,zmap,layer_up,layer_down);
                     imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
-                    
+                     COLOR_SME(:,:,PCH)=uint16(65535*mat2gray(zprojf2));
+                      COLOR_MIP(:,:,PCH)=uint16(65535*mat2gray(max(Img2,[],3)));
+end   
+
+imwrite(COLOR_SME(:,:,1:3),[nametex 'COLOR_SME.png']);
+imwrite(COLOR_MIP(:,:,1:3),[nametex 'COLOR_MIP.png']);
  
- Img2=[];
- 
- PCH=PCH2;
- 
- kin=1;
-for k = PCH:NCH:num_images
-    I = imread([PathName FileName], k);
-      Img2(:,:,kin)=I; 
-       kin=kin+1;
-end
-                    zmap=round(qzr2);
-                    zmap(zmap>k)=k;
-                    zmap(zmap<1)=1;
-                    zprojf2=FV1_make_projection_from_layer(Img2,zmap,0,0);
-                    imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
-%  end
+%  Img2=[];
+%  
+%  PCH=PCH2;
+%  
+%  kin=1;
+% for k = PCH:NCH:num_images
+%     I = imread([PathName FileName], k);
+%       Img2(:,:,kin)=I; 
+%        kin=kin+1;
+% end
+%                     zmap=round(qzr2);
+%                     zmap(zmap>k)=k;
+%                     zmap(zmap<1)=1;
+%                     zprojf2=FV1_make_projection_from_layer(Img2,zmap,layer_up,layer_down);
+%                     imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
+% %  end
 close all
 
