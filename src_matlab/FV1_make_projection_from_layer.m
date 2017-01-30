@@ -1,6 +1,6 @@
 function zprojf1=FV1_make_projection_from_layer(Img3,zmap,up,low) 
-
-Img3=uint16(65535*mat2gray(Img3));
+% Img3(isnan(Img3))=0;
+% Img3=uint16(65535*mat2gray(Img3));
 
 Img3=cat(3,uint16(zeros(size(Img3,1),size(Img3,2),up)),uint16(Img3),uint16(zeros(size(Img3,1),size(Img3,2),low)));
 

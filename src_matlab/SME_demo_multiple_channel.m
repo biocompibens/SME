@@ -82,94 +82,94 @@ end
 
 
 
-   figure; 
-            colormap(bone) 
-            imagesc(qzr2);
+%    figure; 
+%             colormap(bone) 
+%             imagesc(qzr2);
+% %             axis tight
+%             caxis manual
+%             caxis([1 size(Img,3)]);
+%             
+% box off
+% axis off
+% set(gcf,'color','w');
+%             
+%             colorbar
+% %             addpath([cd filesep 'export_fig-master']);
+% %             export_fig([nametex 'SME_FinalZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
+%   
+%                 C = colormap; 
+%                 L = size(C,1);
+%                 Gs = round(interp1(linspace(1,size(Img,3),L),1:L,double(qzr2)));
+%                 Gs(isnan(Gs))=1;
+%        
+%                 H = reshape(C(Gs,:),[size(Gs) 3]); 
+%                 imwrite(uint16(65535*H),[nametex 'SME_FinalZmap.png']);
+%             close all  
+            
+%              figure 
+%            colormap(bone)
+%             imagesc(idmaxini);
+%               
+% %             axis tight
+% box off
+% axis off
+% set(gcf,'color','w');
+%             caxis manual
+%             caxis([1 size(Img,3)]);
+%             colorbar   
+% %             export_fig([nametex 'SME_InitialZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
+% 
+%   
+%                 C = colormap; 
+%                 L = size(C,1);
+%                 Gs = round(interp1(linspace(1,size(Img,3),L),1:L,double(idmaxini)));
+%                 Gs(isnan(Gs))=1;
+%        
+%                 H = reshape(C(Gs,:),[size(Gs) 3]); 
+%                 imwrite(uint16(65535*H),[nametex 'SME_InitialZmap.png']);
+%             close all  
+%  
+%               figure 
+%             colormap(cool) 
+%             imagesc(classmap);
 %             axis tight
-            caxis manual
-            caxis([1 size(Img,3)]);
-            
-box off
-axis off
-set(gcf,'color','w');
-            
-            colorbar
-%             addpath([cd filesep 'export_fig-master']);
-%             export_fig([nametex 'SME_FinalZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
-  
-                C = colormap; 
-                L = size(C,1);
-                Gs = round(interp1(linspace(1,size(Img,3),L),1:L,double(qzr2)));
-                Gs(isnan(Gs))=1;
-       
-                H = reshape(C(Gs,:),[size(Gs) 3]); 
-                imwrite(uint16(65535*H),[nametex 'SME_FinalZmap.png']);
-            close all  
-            
-             figure 
-           colormap(bone)
-            imagesc(idmaxini);
-              
-%             axis tight
-box off
-axis off
-set(gcf,'color','w');
-            caxis manual
-            caxis([1 size(Img,3)]);
-            colorbar   
-%             export_fig([nametex 'SME_InitialZmap_with_colorbar.png'],'-a1', '-native','-p0','-png');
-
-  
-                C = colormap; 
-                L = size(C,1);
-                Gs = round(interp1(linspace(1,size(Img,3),L),1:L,double(idmaxini)));
-                Gs(isnan(Gs))=1;
-       
-                H = reshape(C(Gs,:),[size(Gs) 3]); 
-                imwrite(uint16(65535*H),[nametex 'SME_InitialZmap.png']);
-            close all  
- 
-              figure 
-            colormap(cool) 
-            imagesc(classmap);
-            axis tight
-            caxis manual
-            caxis([1 3]);
-  
-                C = colormap; 
-                L = size(C,1);
-                Gs = round(interp1(linspace(1,3,L),1:L,double(classmap)));
-                Gs(isnan(Gs))=1;
-       
-                H = reshape(C(Gs,:),[size(Gs) 3]); 
-                imwrite(uint16(65535*H),[nametex 'Classmap.png']);
-            close all  
+%             caxis manual
+%             caxis([1 3]);
+%   
+%                 C = colormap; 
+%                 L = size(C,1);
+%                 Gs = round(interp1(linspace(1,3,L),1:L,double(classmap)));
+%                 Gs(isnan(Gs))=1;
+%        
+%                 H = reshape(C(Gs,:),[size(Gs) 3]); 
+%                 imwrite(uint16(65535*H),[nametex 'Classmap.png']);
+%             close all  
 
                  zprojf1=uint16(65535*(mat2gray(zprojf1)));             
                 composite_image=zprojf1;
 
-                f=strcat(nametex,'SME_compositeImage','.png');
-                imwrite(composite_image,f);
-                                             
-figure()
-iter=length(cost);
-plot(1:iter, cost(1:iter),'LineWidth',2.00,'Color',[0 0 0]);
-xlim([1 iter])
-ylim([cost(iter) cost(1)])
-hold on;                             
-xlabel('Iteration','FontSize', 24,'FontName','Times');
- ylabel('Cost', 'FontSize', 24,'FontName','Times') % y-axis label
-
-set(gca, 'Ticklength', [0 0])
-set(gca, 'box', 'off')
-ax = gca;
-ha = axes('Position',[0 0 1 1],'Xlim',[0 1],'Ylim',[0 1],'Box','off','Visible','off','Units','normalized', 'clipping' , 'off');
-                                                %                                             text(0.5,1,['Comparison of nMI' ],'HorizontalAlignment','center','VerticalAlignment', 'top');
-text(0.5,1,['C1 = ' num2str(C1,'%.4f') ', C2 = ' num2str(C2,'%.4f')],'HorizontalAlignment','center','VerticalAlignment', 'top','FontName','Times','FontSize', 20);                                          
-set(gcf,'PaperPositionMode','auto')
-
-print([nametex 'Cost.png'], '-dpng', '-r150');                                                            
-set(gcf,'Units','inches');  
+%                 f=strcat(nametex,'SME_compositeImage','.png');
+%                 imwrite(composite_image,f);
+%                                              
+% figure()
+% iter=length(cost);
+% plot(1:iter, cost(1:iter),'LineWidth',2.00,'Color',[0 0 0]);
+% xlim([1 iter])
+% ylim([cost(iter) cost(1)])
+% hold on;                             
+% xlabel('Iteration','FontSize', 24,'FontName','Times');
+%  ylabel('Cost', 'FontSize', 24,'FontName','Times') % y-axis label
+% 
+% set(gca, 'Ticklength', [0 0])
+% set(gca, 'box', 'off')
+% ax = gca;
+% ha = axes('Position',[0 0 1 1],'Xlim',[0 1],'Ylim',[0 1],'Box','off','Visible','off','Units','normalized', 'clipping' , 'off');
+%                                                 %                                             text(0.5,1,['Comparison of nMI' ],'HorizontalAlignment','center','VerticalAlignment', 'top');
+% text(0.5,1,['C1 = ' num2str(C1,'%.4f') ', C2 = ' num2str(C2,'%.4f')],'HorizontalAlignment','center','VerticalAlignment', 'top','FontName','Times','FontSize', 20);                                          
+% set(gcf,'PaperPositionMode','auto')
+% 
+% print([nametex 'Cost.png'], '-dpng', '-r150');                                                            
+% set(gcf,'Units','inches');  
  
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%for multi-channel image%%%%%%%%%%%%   
@@ -195,13 +195,14 @@ end
                     zmap(zmap>k)=k;
                     zmap(zmap<1)=1;
                     zprojf2=FV1_make_projection_from_layer(Img2,zmap,layer_up,layer_down);
-                    imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
-                     COLOR_SME(:,:,PCH)=uint16(65535*mat2gray(zprojf2));
-                      COLOR_MIP(:,:,PCH)=uint16(65535*mat2gray(max(Img2,[],3)));
+%                     imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
+                     COLOR_SME(:,:,PCH)=uint16(zprojf2);
+                      COLOR_MIP(:,:,PCH)=uint16(max(Img2,[],3));
 end   
 
-imwrite(COLOR_SME(:,:,1:3),[nametex 'COLOR_SME.png']);
-imwrite(COLOR_MIP(:,:,1:3),[nametex 'COLOR_MIP.png']);
+% imwrite(uint16(65535*mat2gray(COLOR_SME(:,:,1:3))),[nametex 'COLOR_SME.png']);
+imwrite(uint16(COLOR_SME(:,:,1:3)),[nametex 'COLOR_SME.tif']);
+% imwrite(COLOR_MIP(:,:,1:3),[nametex 'COLOR_MIP.png']);
  
 %  Img2=[];
 %  
