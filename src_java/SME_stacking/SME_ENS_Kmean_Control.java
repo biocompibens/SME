@@ -1,19 +1,21 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
 // TODO Optimize imports by removing not necessary imports
 
-import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.plugin.filter.EDM;
 import ij.process.ByteProcessor;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
+import ij.process.ShortProcessor;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.ml.clustering.CentroidCluster;
 import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by rexhepaj on 17/03/16.
@@ -209,11 +211,23 @@ public class SME_ENS_Kmean_Control {
             }
 
             int size2_ = sme_pluginGetManifold.getStack1().getSize();
+            int bitDepthStack = sme_pluginGetManifold.getStack1().getBitDepth();
 
             // Set the pixel values
             for (l = size1_; l < padding_zero; l++) {
-                sme_pluginGetManifold.getStack1().addSlice(new FloatProcessor(W,H));
+                switch (bitDepthStack){
+                    case 8:
+                        sme_pluginGetManifold.getStack1().addSlice(new ByteProcessor(W,H));
+                        break;
+                    case 16:
+                        sme_pluginGetManifold.getStack1().addSlice(new ShortProcessor(W,H));
+                        break;
+                    case 32:
+                        sme_pluginGetManifold.getStack1().addSlice(new FloatProcessor(W,H));
+                        break;
+                   }
             }
+
             System.out.println("Padding Done !");
         }
 
@@ -321,7 +335,7 @@ public class SME_ENS_Kmean_Control {
         final int numClust = numClust_;
         final double[][]  coordClust = result_fft;
 
-        java.util.List<SME_ENS_PixelPoints> clusterInput = new ArrayList<>(result_fft.length);
+        List<SME_ENS_PixelPoints> clusterInput = new ArrayList<>(result_fft.length);
 
         for (int i=0;i<result_fft.length;i++) {
             clusterInput.add(new SME_ENS_PixelPoints(MatrixUtils.createRealVector(result_fft[i]),i));

@@ -1,4 +1,4 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
 /**
  * Defines object which register with implementation of the KMean algorithm

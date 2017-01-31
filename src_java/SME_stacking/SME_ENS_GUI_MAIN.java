@@ -1,6 +1,7 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
-import ij.*;
+import ij.ImagePlus;
+import ij.ImageStack;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

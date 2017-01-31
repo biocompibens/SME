@@ -1,4 +1,4 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
 /******************************************************************************
  *  Compilation:  javac SME_ENS_Complex.java

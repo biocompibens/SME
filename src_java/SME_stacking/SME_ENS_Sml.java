@@ -1,12 +1,9 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
-import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
-
-import java.io.File;
 
 /**
  * Created by rexhepaj on 17/03/16.
@@ -39,7 +36,7 @@ public class SME_ENS_Sml {
 
         float[] hG          = SME_ENS_Utils.convertDoubleVecFloat(hGDouble);
 
-        SME_ENS_Convolver  convENS = new SME_ENS_Convolver();
+        SME_ENS_Convolver convENS = new SME_ENS_Convolver();
 
         ImagePlus imp_sml = sme_pluginGetManifold.getImp().duplicate();
 
@@ -111,7 +108,7 @@ public class SME_ENS_Sml {
 
         float[] hG          = SME_ENS_Utils.convertDoubleVecFloat(hGDouble);
 
-        SME_ENS_Convolver  convENS = new SME_ENS_Convolver();
+        SME_ENS_Convolver convENS = new SME_ENS_Convolver();
 
         ImagePlus imp_sml = sme_pluginGetManifold.getImp().duplicate();
 

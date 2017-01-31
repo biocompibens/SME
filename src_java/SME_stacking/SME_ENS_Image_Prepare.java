@@ -1,6 +1,9 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
-import ij.*;
+import ij.IJ;
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.WindowManager;
 import ij.gui.Overlay;
 import ij.gui.Roi;
 import ij.process.ByteProcessor;

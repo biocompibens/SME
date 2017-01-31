@@ -1,4 +1,4 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
 /**
  * Exception thrown when insufficient memory is available to

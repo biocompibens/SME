@@ -1,4 +1,4 @@
-package ij.plugin.filter.SME_PROJECTION_SRC;
+package SME_PROJECTION_SRC;
 
 import ij.IJ;
 import ij.ImagePlus;
@@ -7,7 +7,6 @@ import ij.gui.*;
 import ij.measure.Calibration;
 import ij.measure.Measurements;
 import ij.measure.ResultsTable;
-import ij.plugin.PlugIn;
 import ij.plugin.filter.Analyzer;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
