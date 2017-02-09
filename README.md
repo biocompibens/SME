@@ -16,15 +16,17 @@ Usage:
 
 3. Be patient! Depending on the size of the image the process can take between 1 and 15 minutes.
 
+4. Please make sure that Color channels are in Red, Green, Blue, Magenta, Cyan or Yellow LUT, but not Grays LUT.
+
 ## Matlab Toolbox instructions:
 
 1. Clone the src_matlab folder
 
 2. Run the 'SME_demo_single_channel.m' for single channel stack and run the 'SME_demo_multiple_channel.m' for multi channel stack
 
-3. Final composite image is saved in a folder created as the filename
+3. Final composite image is saved in a folder created as the filename (** Input image needs to be in the tif/tiff format)
 
 ## Sample datasets:
 
-The sample_datasets folder contains sample 3D image stack with one or multiple channels
+The sample_datasets folder contains sample 3D image stack with one or multiple channels. THe larger datasets are in zipped format, which needs to be unzipped before running with the plugin.
 
