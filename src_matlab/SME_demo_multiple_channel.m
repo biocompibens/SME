@@ -198,10 +198,17 @@ end
 %                     imwrite(uint16(65535*mat2gray(zprojf2)),[nametex 'SME_channel' num2str(PCH) '.png']);
                      COLOR_SME(:,:,PCH)=uint16(zprojf2);
                       COLOR_MIP(:,:,PCH)=uint16(max(Img2,[],3));
+                      
+%                       if PCH==1
+                      imwrite(uint16(COLOR_SME(:,:,PCH)),[nametex 'COLOR_SME_CH' num2str(PCH) '.tif']);
+%                       else
+%                       imwrite(uint16(COLOR_SME(:,:,PCH)),[nametex 'COLOR_SME.tif'],'WriteMode', 'append');    
+%                       end
+                      
 end   
 
 % imwrite(uint16(65535*mat2gray(COLOR_SME(:,:,1:3))),[nametex 'COLOR_SME.png']);
-imwrite(uint16(COLOR_SME(:,:,1:3)),[nametex 'COLOR_SME.tif']);
+% imwrite(uint16(COLOR_SME(:,:,1:NCH)),[nametex 'COLOR_SME.tif']);
 % imwrite(COLOR_MIP(:,:,1:3),[nametex 'COLOR_MIP.png']);
  
 %  Img2=[];
