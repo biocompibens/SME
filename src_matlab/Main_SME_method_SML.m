@@ -110,11 +110,11 @@ overlap2=sum(valk(edgeflag2==1)<=ht)./sum(valk(edgeflag2==1)>ht);
                            sg(sgk==0)=[];
                            dg(sgk==0)=[];
                            
-%                            if overlap2<0
-%                                overlap2=0
-%                            elseif overlap2>1
-%                                overlap2=1
-%                            end
+                           if overlap2<0
+                               overlap2=0;
+                           elseif overlap2>1
+                               overlap2=1;
+                           end
 %                           
                            
                            WA=dg./sg;
