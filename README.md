@@ -16,8 +16,6 @@ Usage:
 
 3. Be patient! Depending on the size of the image the process can take between 1 and 15 minutes.
 
-4. Please make sure that Color channels are in Red, Green, Blue, Magenta, Cyan or Yellow LUT, but not Grays LUT.
-
 ## Matlab Toolbox instructions:
 
 1. Clone the src_matlab folder
@@ -28,5 +26,5 @@ Usage:
 
 ## Sample datasets:
 
-The sample_datasets folder contains sample 3D image stack with one or multiple channels. THe larger datasets are in zipped format, which needs to be unzipped before running with the plugin.
+The sample_datasets folder contains sample 3D image stack with one or multiple channels. The larger datasets are in zipped format, which needs to be unzipped before running with the plugin.
 
