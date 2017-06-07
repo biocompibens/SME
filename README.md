@@ -28,3 +28,9 @@ Usage:
 
 The sample_datasets folder contains sample 3D image stack with one or multiple channels. The larger datasets are in zipped format, which needs to be unzipped before running with the plugin.
 
+#Citation
+
+If you use the toolbox, please cite the paper using
+
+Shihavuddin, Asm; Basu, Sreetama & Rexhepaj, Elton et al. (2017 May 31), "Smooth 2D manifold extraction from 3D image stack.", Nature Communications 8, PMID 28561033, doi:10.1038/ncomms15554.
+
