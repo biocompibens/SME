@@ -33,4 +33,5 @@ The sample_datasets folder contains sample 3D image stack with one or multiple c
 If you use the toolbox, please cite the paper using
 
 Shihavuddin, Asm; Basu, Sreetama & Rexhepaj, Elton et al. (2017 May 31), "Smooth 2D manifold extraction from 3D image stack.", Nature Communications 8, PMID 28561033, doi:10.1038/ncomms15554.
+(https://www.nature.com/articles/ncomms15554)
 
