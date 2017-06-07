@@ -28,7 +28,7 @@ Usage:
 
 The sample_datasets folder contains sample 3D image stack with one or multiple channels. The larger datasets are in zipped format, which needs to be unzipped before running with the plugin.
 
-#Citation
+## Citation
 
 If you use the toolbox, please cite the paper using
 
