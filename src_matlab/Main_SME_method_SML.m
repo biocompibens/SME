@@ -6,7 +6,7 @@ M = [-1 2 -1];%SML operator
 [sz1,sz2,sz3]=size(Img);
 npxl=sz1*sz2;
 timk=double(Img);
-sigma=find_sigma(Img)
+sigma=find_sigma_SML(Img)
 hG = fspecial('gaussian',[25 25],sigma+0.01); 
 
 %% SML Extraction
